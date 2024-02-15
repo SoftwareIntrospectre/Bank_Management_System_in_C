@@ -1,0 +1,52 @@
+The functionality of the Bank Management System Application is mentioned below:
+Transfer Money to the Account
+Creation of Account
+Check Amount
+Login Functionality
+
+Create account
+Has an ID attached
+ID is unique
+
+Has a Name attached
+Name does not have to be unique
+
+Has a dollar amount attached
+Cannot have negative values
+
+Login functionality
+unique username
+unique password
+
+User can have more than 1 account tied to it
+Checking
+Savings
+
+Both Checking and Savings are types of Accounts
+
+An account has property AccountBalance
+Float with 2 precision places (dollars and cents)
+CheckBalance function is more-or-less just Get() of the value of account, and returning it.
+
+Balance can be 0 or more.
+
+TransferFunds function requires a check to see if the User has a second account or not.If it does not, throw and error
+
+DepositFunds() is just an insert, and the AccountBalance is updated.
+
+WithdrawFunds() is insert into CashToWithdraw transaction, which dispenses the cash. This cannot be done for less than $20.00, and has a service fee of $2.00.
+
+The amount to withdraw is the WithdrawAmount + ServiceFeeAmount, which is passed to DispenseCash. 
+
+DispenseCash() can have only 1 amount at a time, and is emptied each time once done. The amount is equal to the WithdrawAmount.
+
+CheckForPositiveBalance() simply checks if balance is > 0. If it does return True else return False.
+Login functionality: 
+
+SignIn() input UserName and Password
+
+Password input should show * character on the screen instead of the actual password
+
+SignIn() will use an array with UserName and Password as elements 0 and 1.
+
+(Determine a good way to compare pairs of data to what’s stored).
