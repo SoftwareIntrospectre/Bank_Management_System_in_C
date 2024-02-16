@@ -99,6 +99,7 @@ char* encryptPassword(char* password){
         return NULL;
     }
 
+    //iterate over the array backwards, and append the characters to the new array (i.e. reverse an array)
     int j = 0;
     for(int i = password_length - 1; i >= 0; i--) {
         encryptPassword[j++] = password[i];
@@ -107,32 +108,19 @@ char* encryptPassword(char* password){
     // Null-terminate the encrypted password
     encryptPassword[password_length] = '\0';
 
-    // //reverse the array and add it to the new array for a backwrads result
-    // for(int i = strlen(password); i > -2; i--){
-    //     //printf("\n%c", password[i]);
-    //     strcat(encryptPassword, password[i]);
-    // }
-    
-    
-    // for(int i = strlen(password); i > -2; i--){
-    //     //printf("\n%c", password[i]);
-    //     strcat(encryptPassword, password[i]);
-    // }
-
-    printf("\n%s\n", encryptPassword);
-    // return encryptPassword;
     return encryptPassword;
 }
 
 int main(){
     struct bankAccount b1 = {"TonyAccount", 12.34, 1};
 
+    //handling nulls here, outside of the main functionality
+    //easier to manage memory this way, because I can free(encrypted_password by itself)
     char* encrypted_password = encryptPassword("Password");
     if (encrypted_password == NULL) {
-        // Handle the case where encryption failed
         printf("Password encryption failed.\n");
         return 1; //error
-}
+    }
 
     struct accountCredentials acc1 = {1, "TonyC", encrypted_password};
 
