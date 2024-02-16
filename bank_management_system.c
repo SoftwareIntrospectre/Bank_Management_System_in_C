@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct bankAccount{
     char bankAccountName[20];
@@ -9,8 +10,11 @@ struct bankAccount{
 
 struct accountCredentials{
     int accountID;
-    char username[50];
-    char password[50];
+
+    // limiting to 20 characters so it's manageable / easy to remember.
+    char username[20];
+    // pointer because I want to allow dynamic memory allocation
+    char *password; 
 };
 
 
@@ -22,8 +26,7 @@ struct accountCredentials{
 //     return encryptedPassword;
 // }
 
-char* encryptPassword(const char* password){
-    char* encryptPassword = malloc(50 * sizeof(char));
+char* encryptPassword(char* password){
 
 // Will do proper encryption later, but this is just an example of changing a password for now.
 
@@ -80,24 +83,67 @@ char* encryptPassword(const char* password){
         // return ['s','t','a',c']
 
 
-    if(encryptPassword == NULL){
+    if(password == NULL){
         printf("No password to speak of. Returning NULL.");
-        free(encryptPassword);
         return NULL;
     }
 
+    int password_length = strlen(password);
+
+    // Allocate enough space for the encrypted password
+    char* encryptPassword = malloc((password_length + 1) * sizeof(char));
+
+
+    if(encryptPassword == NULL){
+        printf("Memory allocation failed");
+        return NULL;
+    }
+
+    int j = 0;
+    for(int i = password_length - 1; i >= 0; i--) {
+        encryptPassword[j++] = password[i];
+    }
+
+    // Null-terminate the encrypted password
+    encryptPassword[password_length] = '\0';
+
+    // //reverse the array and add it to the new array for a backwrads result
+    // for(int i = strlen(password); i > -2; i--){
+    //     //printf("\n%c", password[i]);
+    //     strcat(encryptPassword, password[i]);
+    // }
+    
+    
+    // for(int i = strlen(password); i > -2; i--){
+    //     //printf("\n%c", password[i]);
+    //     strcat(encryptPassword, password[i]);
+    // }
+
+    printf("\n%s\n", encryptPassword);
+    // return encryptPassword;
     return encryptPassword;
 }
 
 int main(){
     struct bankAccount b1 = {"TonyAccount", 12.34, 1};
 
-    struct accountCredentials acc1 = {1, "TonyC", "asdfasdf"};
+    char* encrypted_password = encryptPassword("Password");
+    if (encrypted_password == NULL) {
+        // Handle the case where encryption failed
+        printf("Password encryption failed.\n");
+        return 1; //error
+}
+
+    struct accountCredentials acc1 = {1, "TonyC", encrypted_password};
 
     printf("My Bank Account Name is: %s.\n", b1.bankAccountName);
     printf("My Bank Account Balance is: $%.2f.\n", b1.bankAccountBalance);
     printf("My Account ID is: %d.\n", b1.accountID);
 
-    printf("My accountCredentials are: Username=%s\n", acc1.username); 
+    printf("My accountCredentials are:\n Username=%s\n", acc1.username); 
     printf("Password=%s\n",acc1.password);
+
+    free(encrypted_password);
+
+    return 0;
 }
