@@ -154,6 +154,16 @@ char* encryptPassword(char* password){
     return encryptPassword;
 }
 
+void addBalance(struct bankAccount *account, double amountToAddToBalance){
+    if(account == NULL){
+        printf("No account selected. Returning.\n");
+        return;
+    }
+
+    printf("Adding $%.2f to balance.\n", amountToAddToBalance);
+    account->bankAccountBalance += amountToAddToBalance;
+}
+
 int main(){
     struct bankAccount b1 = {1, "TonyAccount", 12.34, 1, 1};
 
@@ -173,6 +183,10 @@ int main(){
 
     printf("My accountCredentials are:\n Username=%s\n", usr1.username); 
     printf("Password=%s\n",usr1.password);
+
+    addBalance(&b1, 500.00);
+    printf("My Bank Account Balance is: $%.2f.\n", b1.bankAccountBalance);
+
 
     free(encrypted_password);
 
